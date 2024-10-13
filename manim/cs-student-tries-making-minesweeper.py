@@ -93,31 +93,11 @@ class ShiftingGrids(Scene):
         # Hard-code values
         ones2 = VGroup()
         ones_cells = [
-            0,
-            1,
-            0,
-            1,
-            0,
-            0,
-            1,
-            1,
-            1,
-            0,
-            0,
-            1,
-            1,
-            1,
-            0,
-            0,
-            0,
-            1,
-            2,
-            0,
-            0,
-            0,
-            0,
-            1,
-            0,
+            0, 1, 0, 1, 0,
+            0, 1, 1, 1, 0,
+            0, 1, 1, 1, 0,
+            0, 0, 1, 2, 0,
+            0, 0, 0, 1, 0,
         ]
 
         # Generate the matching number grid
@@ -171,44 +151,24 @@ class ShiftingGrids(Scene):
         self.wait(1)
 
         ones_cells = [
-            0,
-            1,
-            0,
-            1,
-            0,
-            1,
-            1,
-            3,
-            1,
-            1,
-            0,
-            2,
-            1,
-            2,
-            0,
-            0,
-            0,
-            2,
-            1,
-            1,
-            0,
-            0,
-            0,
-            1,
-            0,
+            0, 1, 0, 1, 0,
+            1, 1, 3, 1, 1,
+            0, 2, 1, 2, 0,
+            0, 0, 2, 1, 1,
+            0, 0, 0, 1, 0,
         ]
 
-        ones = VGroup()
+        ones3 = VGroup()
         for i, v in enumerate(ones_cells):
             if v == 0:
                 continue
             one = Integer(v, font_size=36, stroke_width=2)
             one.move_to(grid_cells[i])
-            ones.add(one)
+            ones3.add(one)
 
         self.play(
             FadeOut(ones2),
-            FadeIn(ones),
+            FadeIn(ones3),
             FadeOut(grid_copy_b, grid_copy_t),
         )
 
@@ -220,42 +180,22 @@ class ShiftingGrids(Scene):
         self.wait(1)
 
         # We reuse variables for diagonal shifts
-        grid_copy_b.center()
-        grid_copy_t.center()
+        grid_copy_bl = VGroup(grid.copy().set_stroke(color=TEAL), ones.copy())
+        grid_copy_br = VGroup(grid.copy().set_stroke(color=RED), ones.copy())
         grid_copy_lt = VGroup(grid.copy().set_stroke(color=ORANGE), ones.copy())
         grid_copy_rt = VGroup(grid.copy().set_stroke(color=PURPLE), ones.copy())
 
-        self.play(grid_copy_b.animate.shift(lshift, dshift))
-        self.play(grid_copy_t.animate.shift(rshift, dshift))
+        self.play(grid_copy_bl.animate.shift(lshift, dshift))
+        self.play(grid_copy_br.animate.shift(rshift, dshift))
         self.play(grid_copy_lt.animate.shift(lshift, tshift))
         self.play(grid_copy_rt.animate.shift(rshift, tshift))
 
         ones_cells = [
-            1,
-            1,
-            2,
-            1,
-            1,
-            1,
-            1,
-            3,
-            1,
-            1,
-            1,
-            2,
-            1,
-            3,
-            2,
-            0,
-            1,
-            2,
-            1,
-            1,
-            0,
-            0,
-            1,
-            1,
-            1,
+            1, 1, 2, 1, 1,
+            1, 1, 3, 1, 1,
+            1, 2, 1, 3, 2,
+            0, 1, 2, 1, 1,
+            0, 0, 1, 1, 1,
         ]
         ones2 = VGroup()
         # Generate the matching number grid
@@ -282,8 +222,8 @@ class ShiftingGrids(Scene):
 
         self.play(
             FadeIn(ones2),
-            FadeOut(ones),
-            FadeOut(grid_copy_b, grid_copy_t, grid_copy_rt, grid_copy_lt),
+            FadeOut(ones3),
+            FadeOut(grid_copy_bl, grid_copy_br, grid_copy_rt, grid_copy_lt),
         )
 
         self.wait(1)
